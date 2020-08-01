@@ -4,43 +4,52 @@ $host = "localhost";
 $username = "docom_cst8238";
 $password = "cst@823870";
 $database = "docom_cst8238";
-echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
+//echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
 $error = "";
 
 if(!isset($_POST["email"]) || !isset($_POST["passwd"]))
 {
-    echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
+    //echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
 	$error = "Please enter an email and password.";
 }
 else
 {
-    echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
+    //echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
 	if($_POST["email"] != "" && $_POST["passwd"] != "")
 	{		
 		$dbConnection = mysqli_connect($host, $username, $password);	
 		
 		// Check connection
 		if ($dbConnection->connect_error) {
-            echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
+            //echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
 			die("Connection failed: " . $dbConnection->connect_error);
 		}
-		echo "Connected successfully" . "<br>";		
+		//echo "Connected successfully" . "<br>";		
 				
 		mysqli_select_db($dbConnection, $database);
-		echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
+		//echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
 		$sqlQuery = "INSERT INTO Employee (EmployeeId, FirstName, LastName, EmailAddress, TelephoneNumber, SocialInsuranceNumber, Password1) VALUES(NULL,'".$_POST["first"]."','".$_POST["last"]."', '".$_POST["email"]."', '".$_POST["phone"]."', '".$_POST["SIN"]."', '".$_POST["passwd"]."')";
-		echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
+		//echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
 		if (mysqli_query($dbConnection, $sqlQuery)) {
-			echo "Person Successfully Added". "<br>";
+			//echo "Person Successfully Added". "<br>";
 		} else {
-            echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
-			echo "Person Could not be added: " . $sqlQuery . "<br>" . mysqli_error($dbConnection);
+            //echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
+			//echo "Person Could not be added: " . $sqlQuery . "<br>" . mysqli_error($dbConnection);
 		}
-		echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
+		//echo "<br><br> -".mysqli_error($dbConnection). "- <br><br>";
 		mysqli_close($dbConnection);
 	}
 	else	
-		$error = "Please enter an email and password.";	
+        $error = "Please enter an email and password.";	
+        
+    session_start();
+    $_SESSION["loggedin"] = false;
+    header("Location: ViewAllEmployees.php");
+    if(isset($_POST["first"])){
+    $_SESSION["first"] = $_POST["first"];
+    header("Location: ViewAllEmployees.php");
+    } else
+    $first = "";
 }
 
 ?>

@@ -43,6 +43,13 @@ h3 {
   color: #5878aa;
 }
 
+table,
+th,
+td {
+  width: 100%;
+  border: 1px solid black;
+}
+
 .arrays-class {
   text-align: center;
   margin-top: 5rem;
